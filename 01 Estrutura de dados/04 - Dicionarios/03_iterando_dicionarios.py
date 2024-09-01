@@ -5,8 +5,10 @@ contatos = {
     "melaine@gmail.com":{"Nome": "Melaine", "telefone": "3333-7766", "extra":{"a": 1}}
 }
 
-telefone = contatos["giovanna@gmail.com"]["telefone"]
-print(telefone)
+#for chave in contatos:
+    #print(chave, contatos[chave])
 
-extra = contatos["melaine@gmail.com"]
-print(extra)
+    #print("=" * 100)
+
+for chave, valor in contatos.items():
+        print(chave, valor)
