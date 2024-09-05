@@ -7,9 +7,6 @@ menu = """
 
 => """
 
-
-
-
 saldo = 0
 limite = 500
 extrato = ""
@@ -30,20 +27,17 @@ class ContaBancaria:
         self.LIMITE_SAQUES = 3
 
     def sacar(self, valor):
-        excedeu_saldo = valor > self.saldo
-        excedeu_limite = valor > self.limite
-        excedeu_numero_de_saques = self.numero_saques >= self.LIMITE_SAQUES
-
-        if excedeu_saldo:
-            print("Operação falhou! Você não tem saldo suficiente.")
+        if valor <= 0:
+            print("Valor inválido.")
             return False
-
-        if excedeu_limite:
-            print("Operação falhou! O valor do saque excede o limite.")
+        if valor > self.saldo:
+            print("Saldo insuficiente.")
             return False
-
-        if excedeu_numero_de_saques:
-            print("Operação falhou! Número máximo de saques excedido.")
+        if valor > self.limite:
+            print("Limite excedido.")
+            return False
+        if self.numero_saques >= self.LIMITE_SAQUES:
+            print("Número máximo de saques excedido.")
             return False
 
         self.saldo -= valor
@@ -60,41 +54,7 @@ class ContaBancaria:
             print("Operação falhou! O valor informado é inválido.")
             return False
 
-def visualizar_extrato():
-    # Implementação da função para visualizar o extrato
-    pass
-
-def criar_cliente():
-    # Implementação da função para criar um cliente
-    pass
-
-def criar_conta_corrente():
-    # Implementação da função para criar uma conta corrente
-    pass
-
-
-
-while True:
-    opcao = input(menu)
-
-    if opcao == "s":
-        valor = float(input("Informe o valor do saque: "))
-        if valor > 0:
-            if sacar(valor):
-                print("Saque realizado com sucesso.")
-    elif opcao == "d":
-        valor = float(input("Informe o valor do depósito: "))
-        if valor > 0:
-            depositar(valor)
-            print("Depósito realizado com sucesso.")
-    elif opcao == "e":
-        visualizar_extrato()
-    elif opcao == "q":
-        break
-    else:
-        print("Operação inválida, por favor selecione novamente a operação desejada.")
-
-        
+# ... (restante do código)
         
         
         
