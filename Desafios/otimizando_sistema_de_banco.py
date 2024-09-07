@@ -26,6 +26,14 @@ class ContaBancaria:
         self.numero_saques = 0
         self.LIMITE_SAQUES = 3
 
+
+    def criar_usuario(self, nome, cpf):
+        usuario = Cliente(nome, cpf)
+        return usuario
+    
+    def criar_conta(self, usuario):
+        return ContaBancaria(usuario)
+
     def sacar(self, valor):
         if valor <= 0:
             print("Valor inválido.")
@@ -53,6 +61,65 @@ class ContaBancaria:
         else:
             print("Operação falhou! O valor informado é inválido.")
             return False
+        
+    def visualisar_extrato(self):
+        print("Extrato:\n", self.extrato)
+
+
+    
+    cliente_atual = None
+    conta_atual = None
+    
+    
+  
+
+    
+while True:
+    print("""
+    [cu] Criar usuário
+    [cc] Criar conta
+    [d] Depositar
+    [s] Sacar
+    [e] Extrato
+    [q] Sair
+    """)
+   
+
+    opcao = input("Escolha uma opção: ").lower()
+
+    if opcao == "cu":
+        nome = input("Digite seu nome: ")
+        # ... (criar usuário)
+        conta_atual = ContaBancaria()
+        print(f"Conta criada com sucesso para {nome}!")
+
+    elif opcao == 'd':
+        if conta_atual is not None:
+            valor = float(input("Digite o valor do depósito: "))
+            conta_atual.depositar(valor)
+        else:
+            print("Você precisa criar uma conta antes de realizar operações.")
+
+
+    if opcao == 'd':
+        valor = float(input("Digite o valor do depósito: "))
+        conta_atual.depositar(valor)
+    elif opcao == 's':
+        valor = float(input("Digite o valor do saque: "))
+        conta_atual.sacar(valor)
+    elif opcao == 'e':
+        conta_atual.visualizar_extrato()
+
+
+    elif opcao == 'q':
+        print("Saindo...")
+        break
+    else:
+        print("Opção inválida.")
+
+        
+        
+    
 
 # ... (restante do código)
         
