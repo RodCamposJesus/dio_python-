@@ -1,11 +1,11 @@
-menu = """
+#menu = """
 
-[d] Depositar
-[s] Sacar
-[e] Extrato
-[q] Sair
+#[d] Depositar
+#[s] Sacar
+#[e] Extrato
+#[q] Sair
 
-=> """
+#=> """
 
 saldo = 0
 limite = 500
