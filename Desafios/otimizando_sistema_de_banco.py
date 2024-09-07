@@ -26,11 +26,10 @@ class ContaBancaria:
         self.numero_saques = 0
         self.LIMITE_SAQUES = 3
 
-
     def criar_usuario(self, nome, cpf):
         usuario = Cliente(nome, cpf)
         return usuario
-    
+
     def criar_conta(self, usuario):
         return ContaBancaria(usuario)
 
@@ -61,62 +60,50 @@ class ContaBancaria:
         else:
             print("Operação falhou! O valor informado é inválido.")
             return False
-        
-    def visualisar_extrato(self):
+
+    def visualizar_extrato(self):
         print("Extrato:\n", self.extrato)
 
+cliente_atual = None
+conta_atual = None
 
-    
-    cliente_atual = None
-    conta_atual = None
-    
-    
-  
-
-    
 while True:
     print("""
-    [cu] Criar usuário
-    [cc] Criar conta
-    [d] Depositar
-    [s] Sacar
-    [e] Extrato
-    [q] Sair
-    """)
-   
+        [cu] Criar usuário
+        [cc] Criar conta
+        [d] Depositar
+        [s] Sacar
+        [e] Extrato
+        [q] Sair
+        """)
 
     opcao = input("Escolha uma opção: ").lower()
 
     if opcao == "cu":
         nome = input("Digite seu nome: ")
-        # ... (criar usuário)
-        conta_atual = ContaBancaria()
+        conta_atual = ContaBancaria()  # Create a new account for the user
         print(f"Conta criada com sucesso para {nome}!")
 
-    elif opcao == 'd':
-        if conta_atual is not None:
+    elif opcao in ('d', 's', 'e'):
+        if conta_atual is None:
+            print("Você precisa criar uma conta antes de realizar operações.")
+            continue
+
+        if opcao == 'd':
             valor = float(input("Digite o valor do depósito: "))
             conta_atual.depositar(valor)
-        else:
-            print("Você precisa criar uma conta antes de realizar operações.")
-
-
-    if opcao == 'd':
-        valor = float(input("Digite o valor do depósito: "))
-        conta_atual.depositar(valor)
-    elif opcao == 's':
-        valor = float(input("Digite o valor do saque: "))
-        conta_atual.sacar(valor)
-    elif opcao == 'e':
-        conta_atual.visualizar_extrato()
-
+        elif opcao == 's':
+            valor = float(input("Digite o valor do saque: "))
+            conta_atual.sacar(valor)
+        elif opcao == 'e':
+            conta_atual.visualizar_extrato()
 
     elif opcao == 'q':
         print("Saindo...")
         break
+
     else:
         print("Opção inválida.")
-
         
         
     
