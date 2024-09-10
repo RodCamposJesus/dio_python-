@@ -13,6 +13,29 @@ extrato = ""
 numero_saques = 0
 LIMITE_SAQUES = 3
 
+class Banco:
+   def __init__(self):
+        self.clientes = {}  # Dicionário para armazenar os clientes e suas contas
+
+def criar_usuario(self, nome, cpf):
+         if cpf in self.clientes:
+            print("Usuário já existe!")
+            return False
+         self.clientes[cpf] = {'nome': nome, 'conta': None}
+         print("Usuário criado com sucesso!")
+         return True
+
+def criar_conta(self, usuario):
+        if cpf not in self.clientes:
+            print("Usuário não encontrado.")
+            return False
+        if self.clientes[cpf]['conta']:
+            print("Usuário já possui uma conta.")
+            return False
+        self.clientes[cpf]['conta'] = ContaBancaria()
+        print("Conta criada com sucesso!")
+        return True
+
 class Cliente:
     def __init__(self, nome, cpf):
         self.nome = nome
@@ -26,12 +49,7 @@ class ContaBancaria:
         self.numero_saques = 0
         self.LIMITE_SAQUES = 3
 
-    def criar_usuario(self, nome, cpf):
-        usuario = Cliente(nome, cpf)
-        return usuario
-
-    def criar_conta(self, usuario):
-        return ContaBancaria(usuario)
+    
 
     def sacar(self, valor):
         if valor <= 0:
@@ -62,10 +80,13 @@ class ContaBancaria:
             return False
 
     def visualizar_extrato(self):
-        print("Extrato:\n", self.extrato)
+        if not self.extrato:
+          print ("Não há operações registradas na conta.")
+        else:
+          print("Extrato:\n", self.extrato)
 
-cliente_atual = None
-conta_atual = None
+ # Cria uma instância do banco
+banco = Banco()
 
 while True:
     print("""
@@ -81,23 +102,38 @@ while True:
 
     if opcao == "cu":
         nome = input("Digite seu nome: ")
-        conta_atual = ContaBancaria()  # Create a new account for the user
-        print(f"Conta criada com sucesso para {nome}!")
-
-    elif opcao in ('d', 's', 'e'):
-        if conta_atual is None:
-            print("Você precisa criar uma conta antes de realizar operações.")
-            continue
-
+        cpf = input("Digite seu CPF: ")
+        banco.criar_usuario(nome, cpf)
+    elif opcao == "cc":
+        cpf = input("Digite o CPF do cliente: ")
+        banco.criar_conta(cpf)
+        
         if opcao == 'd':
-            valor = float(input("Digite o valor do depósito: "))
-            conta_atual.depositar(valor)
-        elif opcao == 's':
-            valor = float(input("Digite o valor do saque: "))
-            conta_atual.sacar(valor)
-        elif opcao == 'e':
-            conta_atual.visualizar_extrato()
+         cpf = input("Digite o CPF do cliente: ")
+         valor = float(input("Digite o valor do depósito: "))
+        if valor > 0:
+            banco.depositar(cpf, valor)
+        else:
+            print("Valor inválido para depósito.")
 
+    elif opcao == 's':
+        cpf = input("Digite o CPF do cliente: ")
+        valor = float(input("Digite o valor do saque: "))
+        if valor > 0:
+            banco.sacar(cpf, valor)
+        else:
+            print("Valor inválido para saque.")
+    
+    elif opcao == "e":
+        cpf = input("Digite o CPF do cliente: ")
+        if cpf in banco.clientes:
+            conta = banco.clientes[cpf]['conta']
+            if conta:
+                conta.visualizar_extrato()
+            else:
+                print("Usuário não possui conta.")
+        else:
+            print("Usuário não encontrado.")
     elif opcao == 'q':
         print("Saindo...")
         break
