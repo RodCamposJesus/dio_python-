@@ -19,6 +19,7 @@ class Carro(Veiculo):
     pass
 
 class Caminhao(Veiculo):
+    
     def __init__(self, cor, placa, numero_rodas, carregado):
         super().__init__(cor, placa, numero_rodas) #super serve para invocar um método da classe pai
         self.carregado = carregado
