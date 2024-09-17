@@ -1,4 +1,5 @@
-from abc import ABC, abstractmethod, textwrap
+from abc import ABC, abstractmethod, textwra
+from datetime import date
 
 
 def menu():
@@ -53,8 +54,8 @@ class Conta:
         self._saldo = saldo
         self._numero = numero
         self._agencia = agencia
-        self._cliente = cliente
-        self._historico = historico
+        self._cliente = Cliente
+        self._historico = Historico
 
     def saldo(self):
         return float
@@ -74,13 +75,23 @@ class ContaCorrente(Conta):
 class Cliente(Conta):
     
     def __init__(self, endereco, contas):
-        self.endereco = endereco
-        self.contas = []
+        self._endereco = endereco
+        self._contas = []
     def realizar_transacao(self, conta: Conta, transacao: Transacao):
         conta._historico.adicionar_transacao(transacao)
 
     def adicionar_conta(self,conta: Conta):
      self.contas.append(conta)
+
+class PessoaFisica(Cliente):
+    def __init__(self, endereco, cpf, nome, data_nascimento: date):
+        super().__init__(endereco)
+        self._cpf = cpf
+        self._nome = nome
+        self.data_nascimento = data_nascimento
+        
+        
+        
 
 
 
