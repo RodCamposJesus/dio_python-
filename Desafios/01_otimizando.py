@@ -14,12 +14,39 @@ def menu():
     => """
     return input(textwrap.dedent(menu))
 
-class Historico:
-    pass
+
 
 class Transacao(ABC):
-    pass
+   @abstractmethod
+   def registrar_conta():
+       return Conta
     
+
+class Deposito(Transacao):
+  def __init__(self, valor):
+      self.valor = valor
+  def registrar_conta():
+    print("Depósito efetuado com sucesso.")
+  
+
+class Saque(Transacao):
+    def __init__(self, valor):
+      self.valor = valor
+    def registrar_conta():
+     print("Saque efetuado efetuado com sucesso.")
+
+
+class Historico(Transacao):
+    def __init__(self):  # Remove o argumento 'transacao'
+        self.transacoes = []  # Cria uma lista para armazenar as transações
+
+    def adicionar_transacao(self, transacao):
+        self.transacoes.append(transacao)
+
+    def retornar_transacoes(self):  # Novo método para retornar as transações
+        return self.transacoes
+
+       
 class Conta:
     
     def __init__(self, saldo, numero, agencia, cliente, historico):
@@ -30,15 +57,32 @@ class Conta:
         self._historico = historico
 
     def saldo(self):
-
         return float
    
     @classmethod    
     def nova_conta(cls, cliente, numero):
-        cliente = cliente
-        numero = numero
-        return cls(cliente, numero)
+        historico = Historico()
+        return cls(cliente, numero, historico)
         
+class ContaCorrente(Conta):
+    
+    def __init__(self, saldo, numero, agencia, cliente, historico, limite=0,limite_saque=0):
+          super().__init__(self, saldo, numero, agencia, cliente, historico)
+          self.limite = limite
+          self.limite_saque = limite_saque
+
+class Cliente(Conta):
+    
+    def __init__(self, endereco, contas):
+        self.endereco = endereco
+        self.contas = []
+    def realizar_transacao(self, conta: Conta, transacao: Transacao):
+        conta._historico.adicionar_transacao(transacao)
+
+    def adicionar_conta(self,conta: Conta):
+     self.contas.append(conta)
+
+
 
 
 #def depositar(saldo, valor, extrato, /):
