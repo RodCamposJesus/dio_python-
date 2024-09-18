@@ -15,6 +15,14 @@ class Cliente:
     def realizar_transacao(self, conta, transacao):
         transacao.registrar(conta)
 
+    @property
+    def contas(self):
+        return self._contas
+    
+    @contas.setter
+    def contas(self, novas_contas):
+        self._contas = novas_contas
+
     def adicionar_conta(self,conta):
      self.contas.append(conta)
 
@@ -176,9 +184,11 @@ class Deposito(Transacao):
   def __init__(self, valor):
       self.valor = valor
   
-  @property
+  #@property
   def valor(self):
      return self.valor
+  
+  
   
   def registrar(self, conta):
     sucesso_transacao = conta.depositar(self.valor)
@@ -186,8 +196,8 @@ class Deposito(Transacao):
     if sucesso_transacao:
        conta.historico.adicionar_transacao(self)
     
-    def menu():
-     menu = """\n
+def menu():
+    menu = """\n
     ================ MENU ================
     [d]\tDepositar
     [s]\tSacar
@@ -197,11 +207,12 @@ class Deposito(Transacao):
     [nu]\tNovo usuário
     [q]\tSair
     => """
-    return input(textwrap.dedent(menu))
+    return input(textwrap.dedent(menu)) 
 
 def filtrar_cliente(cpf, clientes):
-   clientes_filtrados= [cliente for cliente in clientes if clientes == cpf]
+   clientes_filtrados= [cliente for cliente in clientes if cliente.cpf == cpf]
    return clientes_filtrados[0] if clientes_filtrados else None
+   
 
 def recuperar_conta_cliente(cliente):
    if not cliente.contas:
@@ -281,9 +292,9 @@ def criar_cliente(clientes):
    data_nascimento = input("Informe a data de nascimento (dd-mm-aaaa): ")
    endereco = input("Informe o endereço (logradouro, nro - bairro - cidade/sigla estado): ")
 
-   cliente = PessoaFisica(nome=nome, data_nascimento=data_nascimento, endereco=endereco)
+   cliente = PessoaFisica(nome=nome, data_nascimento=data_nascimento,cpf=cpf, endereco=endereco)
 
-   clientes.append(cliente)]
+   clientes.append(cliente)
 
    print("\n=== Cliente criado com sucesso! ===")
 
