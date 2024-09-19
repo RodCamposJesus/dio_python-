@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-import datetime
+from datetime import datetime
 import textwrap 
 
 
@@ -37,7 +37,7 @@ class PessoaFisica(Cliente):
 
 class Conta:
     
-    def __init__(self, saldo, numero, agencia, cliente):
+    def __init__(self, cliente, numero):
         self._saldo = 0
         self._numero = numero
         self._agencia = "0001"
@@ -47,6 +47,7 @@ class Conta:
     @classmethod    
     def nova_conta(cls, cliente, numero):
         return cls(cliente, numero)
+    
 
     @property
     def saldo(self):
@@ -85,7 +86,7 @@ class Conta:
             
             return False
         
-        def depositar(self, valor):
+    def depositar(self, valor):
          if  valor > 0:
             self._saldo += valor
             print("\n=== Depósito realizado com sucesso! ===")
@@ -102,8 +103,8 @@ class Conta:
         
 class ContaCorrente(Conta):
     
-    def __init__(self, numero, cliente, limite=500,limite_saques=3):
-          super().__init__(numero, cliente)
+    def __init__(self, cliente, numero, limite=500,limite_saques=3):
+          super().__init__(cliente, numero)
           self.limite = limite
           self.limite_saques = limite_saques
 
@@ -128,11 +129,11 @@ class ContaCorrente(Conta):
        return False
     
     def __str__(self):
-       return f"""\
+        return f"""\
             Agência:\t{self.agencia}
             C/C:\t\t{self.numero}
             Titular:\t{self.cliente.nome}
-            """
+        """
     
 class Historico: 
     def __init__(self):  # Remove o argumento 'transacao'
@@ -141,12 +142,10 @@ class Historico:
     def adicionar_transacao(self, transacao):
         self.transacoes.append(
             {
-               "tipo":transacao.__class__.__name__,
-               "valor": transacao.valor,
-               "data": datetime.now().strftime
-               ("%d-%m-%Y %H:%M:%s"),
+                "tipo": transacao.__class__.__name__,
+                "valor": transacao.valor,
+                "data": datetime.now().strftime("%d-%m-%Y %H:%M:%S"),
             }
-        
         )
 
     def retornar_transacoes(self):  # Novo método para retornar as transações
@@ -168,7 +167,7 @@ class Saque(Transacao):
     def __init__(self, valor):
       self.valor = valor
     
-    @property
+    #@property
     def valor(self):
        return self.valor
     
@@ -215,9 +214,11 @@ def filtrar_cliente(cpf, clientes):
    
 
 def recuperar_conta_cliente(cliente):
+   
    if not cliente.contas:
       print("\n@@@ Cliente não possui conta! @@@")
       return
+   
    # FIXME: não permite cliente escolher a conta
    return cliente.contas[0]
 
@@ -307,6 +308,7 @@ def criar_conta(numero_conta, clientes, contas):
       print("\n@@@ Cliente não encontrado, fluxo de criação de conta encerrado! @@@")
       return
    
+   #conta = ContaCorrente.nova_conta(numero=numero_conta, cliente=cliente)
    conta = ContaCorrente.nova_conta(cliente=cliente, numero=numero_conta)
    contas.append(conta)
    cliente.contas.append(conta)
@@ -338,6 +340,10 @@ def main():
         
         elif opcao == "nu":
             criar_cliente(clientes)
+
+        elif opcao == "nc":
+            numero_conta = len(contas) + 1
+            criar_conta(numero_conta, clientes, contas)
 
         elif opcao == "lc":
             listar_contas(contas)
