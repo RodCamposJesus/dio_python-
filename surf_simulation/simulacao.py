@@ -1,11 +1,10 @@
-import prancha
-import condicoes
+from surf_simulation import prancha
+from surf_simulation import condicoes
 
 def escolher_prancha(condicoes):
-    pranchas = ["5'8",
-                "5'11",
-                "6'2"
-    ]
+    pranchas = ["5'8", "5'11", "6'2"]
+
+    tamanho_onda_num = float(condicoes.tamanho_onda)  # Converter para float
 
     if condicoes.tamanho_onda < 3:
         return pranchas[0] # Ondas pequenas: prancha menor
