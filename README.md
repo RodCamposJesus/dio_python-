@@ -1,13 +1,13 @@
+# surf_simulation
 Programa simples simulando a escolha de pranchas de surf de
 acodo com o tamanho das ondas.
 
-# __init__
-Para iniciar o nosso pacote mesmo vazio ele pe necessário.
+## Installation 
+pip install -e .
+python -m surf_simulation.simulacao
 
-## condicoes.py
-Programa que seta o tamanho das ondas
 
-## prancha.py
-Tamanho da prancha de acordo com o tamanho da ondas, são 
-3 opções com uma variedade de escolhas de tamanha, porém
-no programa só dei exemplo de alguns tipos de tamanho.
+## usage 
+from surf_simulation.prancha import Prancha
+from surf_simulation.condicoes import Condicoes
+import condicoes
